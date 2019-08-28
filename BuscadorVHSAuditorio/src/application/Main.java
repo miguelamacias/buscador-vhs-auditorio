@@ -14,6 +14,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 
 import javax.swing.JScrollPane;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Main {
 
@@ -50,7 +52,7 @@ public class Main {
 	private void initialize() {
 		SingletonDB db = SingletonDB.getInstancia();
 		frmBuscadorVhsAuditorio = new JFrame();
-		frmBuscadorVhsAuditorio.setTitle("Buscador VHS Auditorio 1.0 - (c) Miguel Ángel Macías, 2019");
+		frmBuscadorVhsAuditorio.setTitle("Buscador VHS Auditorio 1.1 - (c) Miguel Ángel Macías, 2019");
 		frmBuscadorVhsAuditorio.setResizable(false);
 		frmBuscadorVhsAuditorio.setBounds(100, 100, 935, 674);
 		frmBuscadorVhsAuditorio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,6 +60,13 @@ public class Main {
 		frmBuscadorVhsAuditorio.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/application/vhs.png")));
 		
 		cuadroBusquedaTexto = new JTextField();
+		cuadroBusquedaTexto.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				cuadroBusquedaTexto.select(0, cuadroBusquedaTexto.getText().length());
+			}
+		});
+		
 		cuadroBusquedaTexto.setBounds(80, 97, 280, 30);
 		frmBuscadorVhsAuditorio.getContentPane().add(cuadroBusquedaTexto);
 		cuadroBusquedaTexto.setColumns(10);
@@ -73,6 +82,17 @@ public class Main {
 		areaResultados.setFont(new Font("Consolas", Font.PLAIN, 14));
 		
 		cuadroBuscarNumero = new JTextField();
+		cuadroBuscarNumero.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				cuadroBuscarNumero.select(0, cuadroBuscarNumero.getText().length());
+			}
+		});
+		cuadroBuscarNumero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				areaResultados.setText(db.buscarCodigo(cuadroBuscarNumero.getText()));
+			}
+		});
 		cuadroBuscarNumero.setColumns(10);
 		cuadroBuscarNumero.setBounds(650, 97, 102, 30);
 		frmBuscadorVhsAuditorio.getContentPane().add(cuadroBuscarNumero);
@@ -85,6 +105,12 @@ public class Main {
 		});
 		btnBuscar.setBounds(372, 97, 97, 30);
 		frmBuscadorVhsAuditorio.getContentPane().add(btnBuscar);
+		
+		cuadroBusquedaTexto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				areaResultados.setText(db.buscarTexto(cuadroBusquedaTexto.getText()));
+			}
+		});
 		
 		JButton btnMostrar = new JButton("Mostrar");
 		btnMostrar.addActionListener(new ActionListener() {
