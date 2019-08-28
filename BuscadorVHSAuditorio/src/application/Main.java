@@ -11,11 +11,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.Toolkit;
+
 import javax.swing.JScrollPane;
 
 public class Main {
 
-	private JFrame frame;
+	private JFrame frmBuscadorVhsAuditorio;
 	private JTextField cuadroBusquedaTexto;
 	private JTextField cuadroBuscarNumero;
 
@@ -27,7 +29,7 @@ public class Main {
 			public void run() {
 				try {
 					Main window = new Main();
-					window.frame.setVisible(true);
+					window.frmBuscadorVhsAuditorio.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,19 +49,22 @@ public class Main {
 	 */
 	private void initialize() {
 		SingletonDB db = SingletonDB.getInstancia();
-		frame = new JFrame();
-		frame.setBounds(100, 100, 935, 674);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmBuscadorVhsAuditorio = new JFrame();
+		frmBuscadorVhsAuditorio.setTitle("Buscador VHS Auditorio 1.0 - (c) Miguel Ángel Macías, 2019");
+		frmBuscadorVhsAuditorio.setResizable(false);
+		frmBuscadorVhsAuditorio.setBounds(100, 100, 935, 674);
+		frmBuscadorVhsAuditorio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmBuscadorVhsAuditorio.getContentPane().setLayout(null);
+		frmBuscadorVhsAuditorio.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/application/vhs.png")));
 		
 		cuadroBusquedaTexto = new JTextField();
 		cuadroBusquedaTexto.setBounds(80, 97, 280, 30);
-		frame.getContentPane().add(cuadroBusquedaTexto);
+		frmBuscadorVhsAuditorio.getContentPane().add(cuadroBusquedaTexto);
 		cuadroBusquedaTexto.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 241, 893, 373);
-		frame.getContentPane().add(scrollPane);
+		scrollPane.setBounds(12, 241, 905, 373);
+		frmBuscadorVhsAuditorio.getContentPane().add(scrollPane);
 		
 		JTextArea areaResultados = new JTextArea();
 		scrollPane.setViewportView(areaResultados);
@@ -70,7 +75,7 @@ public class Main {
 		cuadroBuscarNumero = new JTextField();
 		cuadroBuscarNumero.setColumns(10);
 		cuadroBuscarNumero.setBounds(650, 97, 102, 30);
-		frame.getContentPane().add(cuadroBuscarNumero);
+		frmBuscadorVhsAuditorio.getContentPane().add(cuadroBuscarNumero);
 		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
@@ -79,49 +84,54 @@ public class Main {
 			}
 		});
 		btnBuscar.setBounds(372, 97, 97, 30);
-		frame.getContentPane().add(btnBuscar);
+		frmBuscadorVhsAuditorio.getContentPane().add(btnBuscar);
 		
 		JButton btnMostrar = new JButton("Mostrar");
+		btnMostrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				areaResultados.setText(db.buscarCodigo(cuadroBuscarNumero.getText()));
+			}
+		});
 		btnMostrar.setBounds(764, 97, 97, 30);
-		frame.getContentPane().add(btnMostrar);
+		frmBuscadorVhsAuditorio.getContentPane().add(btnMostrar);
 		
 		
 		
 		JLabel lblCdigo = new JLabel("Código");
 		lblCdigo.setBounds(26, 212, 56, 16);
-		frame.getContentPane().add(lblCdigo);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblCdigo);
 		
 		JLabel lblContenido = new JLabel("Contenido");
 		lblContenido.setBounds(112, 212, 75, 16);
-		frame.getContentPane().add(lblContenido);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblContenido);
 		
 		JLabel lblFecha = new JLabel("Fecha");
 		lblFecha.setBounds(764, 212, 56, 16);
-		frame.getContentPane().add(lblFecha);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblFecha);
 		
 		JLabel lblContenido_1 = new JLabel("Contenido");
 		lblContenido_1.setBounds(12, 104, 116, 16);
-		frame.getContentPane().add(lblContenido_1);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblContenido_1);
 		
 		JLabel lblFecha_1 = new JLabel("o Fecha");
 		lblFecha_1.setBounds(12, 118, 56, 16);
-		frame.getContentPane().add(lblFecha_1);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblFecha_1);
 		
 		JLabel lblBuscarPor = new JLabel("Buscar por");
 		lblBuscarPor.setBounds(12, 89, 75, 16);
-		frame.getContentPane().add(lblBuscarPor);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblBuscarPor);
 		
 		JLabel label = new JLabel("Buscar por");
 		label.setBounds(546, 96, 75, 16);
-		frame.getContentPane().add(label);
+		frmBuscadorVhsAuditorio.getContentPane().add(label);
 		
 		JLabel lblNumeorDeCinta = new JLabel("numero de cinta");
 		lblNumeorDeCinta.setBounds(546, 111, 102, 16);
-		frame.getContentPane().add(lblNumeorDeCinta);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblNumeorDeCinta);
 		
 		JLabel lblBuscadorVhsAuditorio = new JLabel("Buscador VHS Auditorio");
 		lblBuscadorVhsAuditorio.setFont(new Font("Britannic Bold", Font.PLAIN, 35));
 		lblBuscadorVhsAuditorio.setBounds(12, 13, 387, 59);
-		frame.getContentPane().add(lblBuscadorVhsAuditorio);
+		frmBuscadorVhsAuditorio.getContentPane().add(lblBuscadorVhsAuditorio);
 	}
 }
