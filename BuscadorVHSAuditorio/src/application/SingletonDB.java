@@ -54,7 +54,14 @@ public class SingletonDB {
 			
 			
 			while (resultado.next()) {
-				listado.append(String.format("%-10s%-82s%s%n", resultado.getInt(1), resultado.getString(2), resultado.getString(3)));
+				if (resultado.getString(2).length() > 86) {
+					String contenido = resultado.getString(2);
+					contenido = contenido.substring(0, 82) + "...";
+					
+					listado.append(String.format("%-6s%-86s%s%n", resultado.getInt(1), contenido, resultado.getString(3)));
+				} else {
+					listado.append(String.format("%-6s%-86s%s%n", resultado.getInt(1), resultado.getString(2), resultado.getString(3)));
+				}
 			}
 			
 		} catch (SQLException e) {
