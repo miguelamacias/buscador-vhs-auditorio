@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.text.WordUtils;
+
 public class SingletonDB {
 	public static SingletonDB instancia = new SingletonDB();
 	
@@ -28,8 +30,8 @@ public class SingletonDB {
 		try {
 			conexion = DriverManager.getConnection("jdbc:sqlite:vhs.db");
 			
-			//Crear la la string SQL con el número de parámetros adecuados
-			String[] palabras = textoBuscar.split(" ");
+			//Crear la string SQL con el número de parámetros adecuados
+			String[] palabras = quitarTildes(textoBuscar).toLowerCase().split(" ");
 			StringBuilder query = new StringBuilder("SELECT codigo, contenido, fecha FROM vhs WHERE contenido LIKE ? ");
 			for (int i = 0; i < palabras.length - 1; i++) {
 				query.append("AND contenido LIKE ? ");				
@@ -58,9 +60,10 @@ public class SingletonDB {
 					String contenido = resultado.getString(2);
 					contenido = contenido.substring(0, 82) + "...";
 					
-					listado.append(String.format("%-6s%-86s%s%n", resultado.getInt(1), contenido, resultado.getString(3)));
+					listado.append(WordUtils.capitalize(String.format("%-6s%-86s%s%n", resultado.getInt(1), contenido, resultado.getString(3))));
 				} else {
-					listado.append(String.format("%-6s%-86s%s%n", resultado.getInt(1), resultado.getString(2), resultado.getString(3)));
+					listado.append(WordUtils.capitalize(String.format("%-6s%-86s%s%n", resultado.getInt(1), resultado.getString(2), resultado.getString(3)), 
+							'¿', ' '));
 				}
 			}
 			
@@ -128,5 +131,9 @@ public class SingletonDB {
 	
 	public static SingletonDB getInstancia() {
 		return instancia;
+	}
+	
+	public static String quitarTildes(String texto) {
+		return texto.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u');
 	}
 }

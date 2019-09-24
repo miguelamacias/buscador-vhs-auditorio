@@ -1,26 +1,24 @@
 package application;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JTextArea;
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
-
-import javax.swing.JScrollPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.PrintWriter;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class Main {
 
@@ -57,7 +55,7 @@ public class Main {
 	private void initialize() {
 		SingletonDB db = SingletonDB.getInstancia();
 		frmBuscadorVhsAuditorio = new JFrame();
-		frmBuscadorVhsAuditorio.setTitle("Buscador VHS Auditorio 1.2 - (c) Miguel Ángel Macías, 2019");
+		frmBuscadorVhsAuditorio.setTitle("Buscador VHS Auditorio 1.3 - (c) Miguel Ángel Macías, 2019");
 		frmBuscadorVhsAuditorio.setResizable(false);
 		frmBuscadorVhsAuditorio.setBounds(100, 100, 935, 674);
 		frmBuscadorVhsAuditorio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -179,6 +177,7 @@ public class Main {
 		btnGuardarListado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser explorador = new JFileChooser();
+				explorador.setSelectedFile(new File("listado.txt"));
 				int valorDevuelto = explorador.showSaveDialog(null);
 				
 				if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
